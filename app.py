@@ -3,6 +3,9 @@ import pickle
 import numpy as np
 import pandas as pd
 import Health_predict as hp
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MaxAbsScaler
+from sklearn.preprocessing import OneHotEncoder
 
 encoded_cols = hp.encoded_cols
 encoder = hp.encoder
@@ -19,11 +22,37 @@ def predict():
     if request.method == 'POST':
         int_features=[x for x in request.form.values()]
         finalarray=[np.array(int_features)]
+        def isFloat(s):
+            try:
+                float(s)
+                return True
+            except:
+                return False
+            
+
+        st = str(finalarray[0][0])
+        k = 42
+        if (st == 'male') or (st == 'female'):
+            k = 1
+        if k == 42:
+            return render_template('index.html',pred='Invalid gender description!! please write male/female')
+        
+        if not isFloat(finalarray[0][1]):
+            return render_template('index.html',pred='Invalid age please write integer value')
+        
+        if not isFloat(finalarray[0][2]):
+            return render_template('index.html',pred='Invalid Heart rate!!!')
+        
+        if not isFloat(finalarray[0][3]):
+            return render_template('index.html',pred='Invalid Temperature!!!')
+        
+        if not isFloat(finalarray[0][4]):
+            return render_template('index.html',pred='Invalid SpO2 saturation!!!')
+        
+        if not isFloat(finalarray[0][5]):
+            return render_template('index.html',pred='Invalid BPM!!!')
+    
         def input(finalarray):
-            import pandas as pd
-            from sklearn.preprocessing import StandardScaler
-            from sklearn.preprocessing import MaxAbsScaler
-            from sklearn.preprocessing import OneHotEncoder
             final = {
                 "gender" : finalarray[0][0].lower(),
                 "age"  : (float)(finalarray[0][1]),
