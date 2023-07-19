@@ -31,6 +31,7 @@ def predict():
             
 
         st = str(finalarray[0][0])
+        st = st.lower()
         k = 42
         if (st == 'male') or (st == 'female'):
             k = 1
